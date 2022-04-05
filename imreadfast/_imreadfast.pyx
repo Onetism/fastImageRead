@@ -1,6 +1,5 @@
-#!python
+#!/usr/bin/env python3
 #cython: initializedcheck=False, boundscheck=False, overflowcheck=False
-# distutils: language = c++
 
 import cython
 cimport cython
