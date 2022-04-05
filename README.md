@@ -12,7 +12,6 @@
 - opencv
 
 ```sh
-  
   conda install cudatoolkit cudatoolkit-dev opencv -c conda-forge
   可以分别安装，注意cudatoolkit和cudatoolkit-dev的版本要是一致的
 ```
