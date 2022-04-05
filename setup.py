@@ -4,6 +4,7 @@ LastEditors: Onetism_SU
 #!/usr/bin/env python3
 
 import sys
+import numpy as np
 from skbuild import setup
 
 setup(
@@ -13,5 +14,6 @@ setup(
     url = "https://github.com/Onetism/fastImageRead.git",
     packages=["imreadfast"],
     setup_requires = ["numpy"],
-    install_requires = ["cython", "numpy>=1.20.0"]
+    install_requires = ["cython", "numpy>=1.20.0"],
+    include_dirs=[np.get_include()]
 )
