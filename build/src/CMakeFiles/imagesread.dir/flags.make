@@ -13,5 +13,5 @@ CXX_DEFINES = -Dimagesread_EXPORTS
 
 CXX_INCLUDES = -I/usr/local/cuda-10.0/include -isystem /usr/local/include/opencv4
 
-CXX_FLAGS = -g -fPIC -fopenmp -std=gnu++11
+CXX_FLAGS =  -fPIC -g -fPIC -fopenmp -std=gnu++11
 

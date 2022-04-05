@@ -1,5 +1,8 @@
 cmake_policy(SET CMP0104 OLD)
 
+set(CUDA_NVCC_FLAGS "--compiler-options -fPIC")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
+
 SET(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)  
 
 file(GLOB SRCS *.c++ *.cu)
