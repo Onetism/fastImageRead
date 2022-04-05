@@ -1,6 +1,6 @@
 #!python
 #cython: initializedcheck=False, boundscheck=False, overflowcheck=False
-# b
+# distutils: language = c++
 
 import cython
 cimport cython
