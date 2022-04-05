@@ -1,7 +1,3 @@
-[submodule "fastImRead"]
-	path = fastImRead
-	url = https://github.com/Onetism/fastImageRead.git
-	branch = main
 [submodule "fastImageRead"]
 	path = fastImageRead
 	url = https://github.com/Onetism/fastImageRead.git
