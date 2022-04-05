@@ -1,7 +1,7 @@
 '''
 Author: your name
 Date: 2022-04-04 12:25:45
-LastEditTime: 2022-04-05 09:42:29
+LastEditTime: 2022-04-05 14:50:03
 LastEditors: Onetism_SU
 Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 FilePath: /python_cuda/test.py
@@ -28,8 +28,8 @@ FilePath: /python_cuda/test.py
 # See the License for the specific language governing permissions and
 # limitations under the License.
 import numpy as np
-from imagesread import pyImagesRead
-import cv2
+from imreadfast import pyImagesRead
+
 
 
 a = pyImagesRead('/data/liutianqiang/hilloc/csfy/train/', '.jpg')
@@ -37,7 +37,7 @@ h = a.getDiffImage(20)
 
 a.writeImageData(h,"/data/liutianqiang/temp/",".png")
 
-cv2.imwrite('./test.png',h[1000,:,:,:].transpose(1,2,0))
+# cv2.imwrite('./test.png',h[1000,:,:,:].transpose(1,2,0))
 
 b = a[:,:,0:1216,0:1920]
 

@@ -1,3 +1,6 @@
+'''
+LastEditors: Onetism_SU
+'''
 #!/usr/bin/env python3
 
 import sys
@@ -10,5 +13,5 @@ setup(
     url = "https://github.com/Onetism/fastImageRead.git",
     packages=["imreadfast"],
     setup_requires = ["numpy"],
-    install_requires = ["cython", "numpy"]
+    install_requires = ["cython", "numpy>=1.20.0"]
 )
