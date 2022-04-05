@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 #cython: initializedcheck=False, boundscheck=False, overflowcheck=False
-include_dirs=[np.get_include()]
 
 import cython
 cimport cython
