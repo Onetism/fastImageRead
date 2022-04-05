@@ -1,4 +1,4 @@
-add_cython_target(_imreadfast c++)
+add_cython_target(_imreadfast CXX)
 add_library(_imreadfast MODULE ${_imreadfast})
 target_link_libraries(_imreadfast imagesread_static)
 python_extension_module(_imreadfast)
