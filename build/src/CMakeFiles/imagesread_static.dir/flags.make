@@ -7,11 +7,11 @@ CUDA_DEFINES =
 
 CUDA_INCLUDES = -I/usr/local/cuda-10.0/include -isystem=/usr/local/include/opencv4
 
-CUDA_FLAGS = -g -std=c++11
+CUDA_FLAGS = -g -Xcompiler=-fPIC -std=c++11
 
 CXX_DEFINES = 
 
 CXX_INCLUDES = -I/usr/local/cuda-10.0/include -isystem /usr/local/include/opencv4
 
-CXX_FLAGS =  -fPIC -g -fopenmp -std=gnu++11
+CXX_FLAGS =  -fPIC -g -fPIC -fopenmp -std=gnu++11
 
