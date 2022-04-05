@@ -1,0 +1,3 @@
+[submodule "libklb"]
+	path = libimagesread
+	url = https://github.com/Onetism/fastImageRead.git
