@@ -6,5 +6,5 @@ CXX_DEFINES =
 
 CXX_INCLUDES = -I/home/liutianqiang/DATA/fastImageRead/src -I/usr/local/cuda-10.0/include -isystem /usr/local/include/opencv4
 
-CXX_FLAGS = -g -fopenmp -std=gnu++11
+CXX_FLAGS = -g -std=gnu++11
 

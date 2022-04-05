@@ -110,8 +110,6 @@ main: /usr/local/lib/libopencv_imgproc.so.4.5.5
 main: /usr/local/lib/libopencv_core.so.4.5.5
 main: /usr/local/cuda-10.0/lib64/libcudart_static.a
 main: /usr/lib/x86_64-linux-gnu/librt.so
-main: /usr/lib/gcc/x86_64-linux-gnu/5/libgomp.so
-main: /usr/lib/x86_64-linux-gnu/libpthread.so
 main: CMakeFiles/main.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/liutianqiang/DATA/fastImageRead/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable main"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/main.dir/link.txt --verbose=$(VERBOSE)

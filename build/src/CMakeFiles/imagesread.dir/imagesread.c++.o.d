@@ -369,10 +369,9 @@ src/CMakeFiles/imagesread.dir/imagesread.c++.o: \
  /usr/local/include/opencv4/opencv2/video.hpp \
  /usr/local/include/opencv4/opencv2/video/tracking.hpp \
  /usr/local/include/opencv4/opencv2/video/background_segm.hpp \
- /usr/lib/gcc/x86_64-linux-gnu/5/include/omp.h /usr/include/c++/5/regex \
- /usr/include/c++/5/bitset /usr/include/c++/5/iterator \
- /usr/include/c++/5/bits/stream_iterator.h /usr/include/c++/5/stack \
- /usr/include/c++/5/bits/stl_stack.h \
+ /usr/include/c++/5/regex /usr/include/c++/5/bitset \
+ /usr/include/c++/5/iterator /usr/include/c++/5/bits/stream_iterator.h \
+ /usr/include/c++/5/stack /usr/include/c++/5/bits/stl_stack.h \
  /usr/include/c++/5/bits/regex_constants.h \
  /usr/include/c++/5/bits/regex_error.h \
  /usr/include/c++/5/bits/regex_automaton.h \

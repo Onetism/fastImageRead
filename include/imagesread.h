@@ -1,7 +1,7 @@
 /*
  * @LastEditors: Onetism_SU
  * @Author: Onetism_su
- * @LastEditTime: 2022-04-05 09:18:58
+ * @LastEditTime: 2022-04-05 18:35:39
  */
 #ifndef __IMAGESREAD_H__
 #define __IMAGESREAD_H__
@@ -67,6 +67,7 @@ class images_read{
         int multiThreadReadImages(void* imageData, uint16_t numThreads);
         int getDiffImages(void* imageData, uint16_t numThreads);
         void diffImagesThread(void* imageData, int totalimages, uint64_t gpuSupportNums, std::atomic<uint64_t> *blockId, int gpuNum);
+        void imagesWriteThread(void* imageData, const char* path, const char* suffix, std::atomic<uint64_t>* blockId);
         void multiThreadImagesWirte(void* imageData, const char* path, const char* suffix,uint16_t numThreads);
 };
 

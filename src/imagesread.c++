@@ -1,7 +1,7 @@
 /*
  * @LastEditors: Onetism_SU
  * @Author: Onetism_su
- * @LastEditTime: 2022-04-05 09:05:04
+ * @LastEditTime: 2022-04-05 18:43:39
  */
 // Copyright 2022 test
 // 
@@ -19,7 +19,7 @@
 #include "imagesread.h"
 #include "diffcuda.h"
 #include "opencv2/opencv.hpp"
-#include "omp.h"
+// #include "omp.h"
 #include <regex>
 #include <thread>
 #include <dirent.h>
@@ -354,6 +354,70 @@ int images_read::getDiffImages(void* imageData, uint16_t numThreads)
     }
 }
 
+void images_read::imagesWriteThread(void* imageData, const char* path, const char* suffix, std::atomic<uint64_t>* blockId)
+{
+    std::uint64_t blockId_t;
+    
+    cv::Mat image;
+    if (imageType == IMAGE_DATA_TYPE::UINT8_TYPE)
+        image = cv::Mat(height, width, CV_8UC3);
+    else if(imageType == IMAGE_DATA_TYPE::UINT16_TYPE)
+        image = cv::Mat(height, width, CV_16UC1);
+    while(true)
+    {
+        blockId_t = atomic_fetch_add(blockId, (uint64_t)1);
+        if(blockId_t >= filesNum)
+            break;
+
+        std::uint64_t offset = blockId_t * width * height *3;
+
+        if (imageType == IMAGE_DATA_TYPE::UINT8_TYPE)
+        {
+            uint8_t* tempImage = (uint8_t*)imageData + offset;
+            for(int i= 0;  i < height; i++)
+            {
+                for(int j = 0; j < width; j++)
+                {
+                    image.at<cv::Vec3b>(i,j)[0] = tempImage[i * width +j + 0 * width * height];
+                    image.at<cv::Vec3b>(i,j)[1] = tempImage[i * width +j + 1 * width * height];
+                    image.at<cv::Vec3b>(i,j)[2] = tempImage[i * width +j + 2 * width * height];
+                }
+            }
+        }
+
+        else if(imageType == IMAGE_DATA_TYPE::UINT16_TYPE)
+        {
+            uint16_t* tempImage = (uint16_t*)imageData + offset;
+            for(int i= 0;  i < height; i++)
+            {
+                for(int j = 0; j < width; j++)
+                {
+                    image.at<cv::uint16_t>(i,j) = tempImage[i * width +j];
+                }
+            }
+        }
+
+        std::string pathName = imageFileNames.at(blockId_t);
+        std::string outPath = pathName.substr(0, pathName.rfind("/")).append("_imagesReadOut");
+        if(path != NULL)
+            outPath = path;
+        std::string fileSuffix = ".png";
+        if(suffix != NULL)
+            fileSuffix = suffix;
+        std::string fileName = pathName.substr(pathName.rfind("/"), pathName.rfind(".") - pathName.rfind("/")).append(fileSuffix);
+        DIR *dir;
+        if((dir=opendir(outPath.c_str())) == NULL)
+        {
+            std::string command = "mkdir -p " + outPath;  
+            system(command.c_str());
+        }
+        bool result = cv::imwrite(outPath.append(fileName), image);
+        if (result == false)
+            std::cout << outPath.append(fileName) << " write failed!" << std::endl;
+    }
+   
+}
+
 void images_read::multiThreadImagesWirte(void* imageData, const char* path, const char* suffix, uint16_t numThreads)
 {
     if (numThreads <= 0)//use maximum available
@@ -361,68 +425,77 @@ void images_read::multiThreadImagesWirte(void* imageData, const char* path, cons
     std::atomic<uint64_t> wirteBlockId; 
     atomic_store(&wirteBlockId, (uint64_t)0);
 
-    omp_set_num_threads(numThreads);  // create as many CPU threads as there are CUDA devices
-    #pragma omp parallel
+    std::vector<std::thread> wirteThreads;
+    for (int i = 0; i < numThreads; i++)
     {
-        unsigned int cpu_thread_id = omp_get_thread_num();
-        unsigned int num_cpu_threads = omp_get_num_threads();
-
-        cv::Mat image;
-        if (imageType == IMAGE_DATA_TYPE::UINT8_TYPE)
-            image = cv::Mat(height, width, CV_8UC3);
-        else if(imageType == IMAGE_DATA_TYPE::UINT16_TYPE)
-            image = cv::Mat(height, width, CV_16UC1);
-        while(true)
-        {
-            uint32_t blockId_t = atomic_fetch_add(&wirteBlockId, (uint64_t)1);
-            if(blockId_t >= filesNum)
-                break;
-
-            std::uint64_t offset = blockId_t * width * height *3;
-
-            if (imageType == IMAGE_DATA_TYPE::UINT8_TYPE)
-            {
-                uint8_t* tempImage = (uint8_t*)imageData + offset;
-                for(int i= 0;  i < height; i++)
-                {
-                    for(int j = 0; j < width; j++)
-                    {
-                        image.at<cv::Vec3b>(i,j)[0] = tempImage[i * width +j + 0 * width * height];
-                        image.at<cv::Vec3b>(i,j)[1] = tempImage[i * width +j + 1 * width * height];
-                        image.at<cv::Vec3b>(i,j)[2] = tempImage[i * width +j + 2 * width * height];
-                    }
-                }
-            }
-
-            else if(imageType == IMAGE_DATA_TYPE::UINT16_TYPE)
-            {
-                uint16_t* tempImage = (uint16_t*)imageData + offset;
-                for(int i= 0;  i < height; i++)
-                {
-                    for(int j = 0; j < width; j++)
-                    {
-                        image.at<cv::uint16_t>(i,j) = tempImage[i * width +j];
-                    }
-                }
-            }
-
-            std::string pathName = imageFileNames.at(blockId_t);
-            std::string outPath = pathName.substr(0, pathName.rfind("/")).append("_imagesReadOut");
-            if(path != NULL)
-                outPath = path;
-            std::string fileSuffix = ".png";
-            if(suffix != NULL)
-                fileSuffix = suffix;
-            std::string fileName = pathName.substr(pathName.rfind("/"), pathName.rfind(".") - pathName.rfind("/")).append(fileSuffix);
-            DIR *dir;
-            if((dir=opendir(outPath.c_str())) == NULL)
-            {
-                std::string command = "mkdir -p " + outPath;  
-                system(command.c_str());
-            }
-            bool result = cv::imwrite(outPath.append(fileName), image);
-            if (result == false)
-                std::cout << outPath.append(fileName) << " write failed!" << std::endl;
-        }
+        wirteThreads.push_back(std::thread(&images_read::imagesWriteThread, this, imageData , path, suffix, &wirteBlockId));
     }
+    for (auto& t : wirteThreads)
+    {
+        t.join();
+    }
+    // omp_set_num_threads(numThreads);  // create as many CPU threads as there are CUDA devices
+    // #pragma omp parallel
+    // {
+    //     unsigned int cpu_thread_id = omp_get_thread_num();
+    //     unsigned int num_cpu_threads = omp_get_num_threads();
+
+    //     cv::Mat image;
+    //     if (imageType == IMAGE_DATA_TYPE::UINT8_TYPE)
+    //         image = cv::Mat(height, width, CV_8UC3);
+    //     else if(imageType == IMAGE_DATA_TYPE::UINT16_TYPE)
+    //         image = cv::Mat(height, width, CV_16UC1);
+    //     while(true)
+    //     {
+    //         uint32_t blockId_t = atomic_fetch_add(&wirteBlockId, (uint64_t)1);
+    //         if(blockId_t >= filesNum)
+    //             break;
+
+    //         std::uint64_t offset = blockId_t * width * height *3;
+
+    //         if (imageType == IMAGE_DATA_TYPE::UINT8_TYPE)
+    //         {
+    //             uint8_t* tempImage = (uint8_t*)imageData + offset;
+    //             for(int i= 0;  i < height; i++)
+    //             {
+    //                 for(int j = 0; j < width; j++)
+    //                 {
+    //                     image.at<cv::Vec3b>(i,j)[0] = tempImage[i * width +j + 0 * width * height];
+    //                     image.at<cv::Vec3b>(i,j)[1] = tempImage[i * width +j + 1 * width * height];
+    //                     image.at<cv::Vec3b>(i,j)[2] = tempImage[i * width +j + 2 * width * height];
+    //                 }
+    //             }
+    //         }
+
+    //         else if(imageType == IMAGE_DATA_TYPE::UINT16_TYPE)
+    //         {
+    //             uint16_t* tempImage = (uint16_t*)imageData + offset;
+    //             for(int i= 0;  i < height; i++)
+    //             {
+    //                 for(int j = 0; j < width; j++)
+    //                 {
+    //                     image.at<cv::uint16_t>(i,j) = tempImage[i * width +j];
+    //                 }
+    //             }
+    //         }
+
+    //         std::string pathName = imageFileNames.at(blockId_t);
+    //         std::string outPath = pathName.substr(0, pathName.rfind("/")).append("_imagesReadOut");
+    //         if(path != NULL)
+    //             outPath = path;
+    //         std::string fileSuffix = ".png";
+    //         if(suffix != NULL)
+    //             fileSuffix = suffix;
+    //         std::string fileName = pathName.substr(pathName.rfind("/"), pathName.rfind(".") - pathName.rfind("/")).append(fileSuffix);
+    //         DIR *dir;
+    //         if((dir=opendir(outPath.c_str())) == NULL)
+    //         {
+    //             std::string command = "mkdir -p " + outPath;  
+    //             system(command.c_str());
+    //         }
+    //         bool result = cv::imwrite(outPath.append(fileName), image);
+    //         if (result == false)
+    //             std::cout << outPath.append(fileName) << " write failed!" << std::endl;
+    //     }
+    // }
 }

@@ -126,8 +126,6 @@ imagesread_EXTERNAL_OBJECTS =
 ../lib/libimagesread.so: /usr/local/lib/libopencv_dnn.so.4.5.5
 ../lib/libimagesread.so: /usr/local/lib/libopencv_imgproc.so.4.5.5
 ../lib/libimagesread.so: /usr/local/lib/libopencv_core.so.4.5.5
-../lib/libimagesread.so: /usr/lib/gcc/x86_64-linux-gnu/5/libgomp.so
-../lib/libimagesread.so: /usr/lib/x86_64-linux-gnu/libpthread.so
 ../lib/libimagesread.so: src/CMakeFiles/imagesread.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/liutianqiang/DATA/fastImageRead/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX shared library ../../lib/libimagesread.so"
 	cd /home/liutianqiang/DATA/fastImageRead/build/src && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/imagesread.dir/link.txt --verbose=$(VERBOSE)

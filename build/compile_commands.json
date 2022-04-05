@@ -1,7 +1,7 @@
 [
 {
   "directory": "/home/liutianqiang/DATA/fastImageRead/build",
-  "command": "/usr/bin/g++  -I/home/liutianqiang/DATA/fastImageRead/src -I/usr/local/cuda-10.0/include -isystem /usr/local/include/opencv4 -g -fopenmp -std=gnu++11 -o CMakeFiles/main.dir/main.c++.o -c /home/liutianqiang/DATA/fastImageRead/main.c++",
+  "command": "/usr/bin/g++  -I/home/liutianqiang/DATA/fastImageRead/src -I/usr/local/cuda-10.0/include -isystem /usr/local/include/opencv4 -g -std=gnu++11 -o CMakeFiles/main.dir/main.c++.o -c /home/liutianqiang/DATA/fastImageRead/main.c++",
   "file": "/home/liutianqiang/DATA/fastImageRead/main.c++"
 },
 {
@@ -11,7 +11,7 @@
 },
 {
   "directory": "/home/liutianqiang/DATA/fastImageRead/build/src",
-  "command": "/usr/bin/g++ -Dimagesread_EXPORTS -I/usr/local/cuda-10.0/include -isystem /usr/local/include/opencv4  -fPIC -g -fPIC -fopenmp -std=gnu++11 -o CMakeFiles/imagesread.dir/imagesread.c++.o -c /home/liutianqiang/DATA/fastImageRead/src/imagesread.c++",
+  "command": "/usr/bin/g++ -Dimagesread_EXPORTS -I/usr/local/cuda-10.0/include -isystem /usr/local/include/opencv4  -fPIC -g -fPIC -std=gnu++11 -o CMakeFiles/imagesread.dir/imagesread.c++.o -c /home/liutianqiang/DATA/fastImageRead/src/imagesread.c++",
   "file": "/home/liutianqiang/DATA/fastImageRead/src/imagesread.c++"
 },
 {
@@ -21,7 +21,7 @@
 },
 {
   "directory": "/home/liutianqiang/DATA/fastImageRead/build/src",
-  "command": "/usr/bin/g++  -I/usr/local/cuda-10.0/include -isystem /usr/local/include/opencv4  -fPIC -g -fPIC -fopenmp -std=gnu++11 -o CMakeFiles/imagesread_static.dir/imagesread.c++.o -c /home/liutianqiang/DATA/fastImageRead/src/imagesread.c++",
+  "command": "/usr/bin/g++  -I/usr/local/cuda-10.0/include -isystem /usr/local/include/opencv4  -fPIC -g -fPIC -std=gnu++11 -o CMakeFiles/imagesread_static.dir/imagesread.c++.o -c /home/liutianqiang/DATA/fastImageRead/src/imagesread.c++",
   "file": "/home/liutianqiang/DATA/fastImageRead/src/imagesread.c++"
 }
 ]
