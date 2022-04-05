@@ -17,16 +17,16 @@ if(NOT GIT_SUBMOD_RESULT EQUAL "0")
     message(FATAL_ERROR "git submodule update --init failed with ${GIT_SUBMOD_RESULT}")
 endif()
 
-if(NOT EXISTS "${PROJECT_SOURCE_DIR}/libimagesread/CMakeLists.txt")
+if(NOT EXISTS "${PROJECT_SOURCE_DIR}/fastImRead/CMakeLists.txt")
     message(FATAL_ERROR "The submodules were not downloaded! GIT_SUBMODULE was turned off or failed. Please update submodules and try again.")
 endif()
 
 
-include_directories(${INCLUDE_DIRECTORIES} ${NumPy_INCLUDE_DIR} libimagesread/src)
+include_directories(${INCLUDE_DIRECTORIES} ${NumPy_INCLUDE_DIR} fastImRead/src)
 
 add_subdirectory(pyimread)
 
-add_subdirectory(libimagesread)
+add_subdirectory(fastImRead)
 # set(BINDINGS_JAVA       OFF)
 # set(build_tests         OFF)
 # set(SKIP_INSTALL_ALL    TRUE)

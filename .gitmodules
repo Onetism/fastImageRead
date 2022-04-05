@@ -1,3 +1,4 @@
-[submodule "libimagesread"]
-	path = libimagesread
+[submodule "fastImRead"]
+	path = fastImRead
 	url = https://github.com/Onetism/fastImageRead.git
+	branch = main
