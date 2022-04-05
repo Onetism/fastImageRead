@@ -1,6 +1,5 @@
-'''
-LastEditors: Onetism_SU
-'''
+#!/usr/bin/env python3
+
 import sys
 from skbuild import setup
 
