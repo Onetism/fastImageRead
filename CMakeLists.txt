@@ -24,7 +24,7 @@ endif()
 
 include_directories(${INCLUDE_DIRECTORIES} ${NumPy_INCLUDE_DIR} fastImRead/src)
 
-add_subdirectory(pyimread)
+add_subdirectory(imreadfast)
 
 add_subdirectory(fastImRead)
 # set(BINDINGS_JAVA       OFF)
