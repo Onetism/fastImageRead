@@ -1,0 +1,2 @@
+/usr/bin/ar qc ../../lib/libimagesread_static.a CMakeFiles/imagesread_static.dir/diffcuda.cu.o CMakeFiles/imagesread_static.dir/imagesread.c++.o
+/usr/bin/ranlib ../../lib/libimagesread_static.a
